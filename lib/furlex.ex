@@ -65,7 +65,7 @@ defmodule Furlex do
   defp fetch(url, opts) do
     fetch        = Task.async Fetcher, :fetch,        [ url, opts ]
     fetch_oembed = Task.async Fetcher, :fetch_oembed, [ url, opts ]
-    yield        = Task.yield_many [fetch, fetch_oembed]
+    yield        = Task.yield_many [fetch, fetch_oembed], [ opts ]
 
     with [ fetch, fetch_oembed ]                          <- yield,
          {_fetch,        {:ok, {:ok, body, status_code}}} <- fetch,
